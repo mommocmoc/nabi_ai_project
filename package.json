@@ -1,0 +1,25 @@
+{
+  "name": "nabi-project",
+  "version": "1.0.0",
+  "description": "2020 Dream Art Lab : DR.Future by Artcenter Nabi Creative A.I. Art Program for young",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon test"
+  },
+  "keywords": [
+    "ml5",
+    "p5js",
+    "ai",
+    "pose",
+    "estimation",
+    "interactive",
+    "art"
+  ],
+  "author": "JaeHwan So",
+  "license": "ISC",
+  "dependencies": {
+    "@feathersjs/express": "^4.5.7",
+    "@feathersjs/feathers": "^4.5.7",
+    "@feathersjs/socketio": "^4.5.7"
+  }
+}
