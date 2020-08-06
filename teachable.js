@@ -2,21 +2,20 @@
      // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
      // the link to your model provided by Teachable Machine export panel
-      
-     let model, webcam, ctx, labelContainer, maxPredictions, oscillator, gainNode, username, initURL;
-
+     var $loginPage = $('.login.page');
+     let model, webcam, ctx, labelContainer, maxPredictions, oscillator, gainNode, username, initURL, audioCtx;
      //audio Part
      let AudioContext = window.AudioContext || window.webkitAudioContext;
-     let audioCtx = new AudioContext();
      //Frequency of note
      //https://pages.mtu.edu/~suits/notefreqs.html
      //Pentatronic Scale C5,D5,E5,G5,A5
      let maxFreq = [523.25, 587.33, 659.25, 698.46, 783.99, 880.00, 987.77, 1046.50];
      let maxVol = 0.02;
      let initialVol = 0.001;
+     var $loginPage = $('.login.page');
 
      async function init() {
-         if(initURL === undefined || initURL.length < 5){
+         if (initURL === undefined || initURL.length < 5) {
              initURL = "https://teachablemachine.withgoogle.com/models/8TTYQRHkI/";
          }
          const modelURL = initURL + "model.json";
@@ -35,10 +34,16 @@
          await webcam.setup(); // request access to the webcam
          await webcam.play();
          window.requestAnimationFrame(loop);
+         $loginPage.fadeOut();
+         $loginPage.off('click');
 
          // append/get elements to the DOM
          const welcome = document.getElementById("welcome");
          welcome.innerHTML = `어서오세요, ${username}! 포즈로 음악을 연주해볼까요?🎹`
+         const mute = document.getElementById("mute")
+         const muteButton = document.createElement("button");
+         muteButton.innerText = "MUTE"
+         mute.appendChild(muteButton);
          const canvas = document.getElementById("canvas");
          canvas.width = size;
          canvas.height = size;
@@ -48,7 +53,9 @@
              labelContainer.appendChild(document.createElement("div"));
          }
 
-         //Audio Part
+         //audio Part Loading
+
+         audioCtx = new AudioContext();
 
          oscillator = audioCtx.createOscillator();
          gainNode = audioCtx.createGain();

@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Test</title>
 </head>
+
 <body>
     <div class="login page">
         <div class="form">
-            <h3 class="title">이름을 알려주세요.😀</h3>
+            <h3 class="title" id="nameInputInst">이름을 알려주세요.😀</h3>
             <input class="usernameInput" type="text" maxlength="14" />
-            <h3 class="title">Teachable Machine 공유 URL을 입력해주세요!🌐</h3>
+            <h3 class="title" id="modelInputInst">Teachable Machine 공유 URL을 입력해주세요!🌐</h3>
             <input class="modelURLInput" type="text" maxlength="1000" />
         </div>
     </div>
-    <div id="welcome">로딩중이에요~ 조금만 기다려주세요!😀</div>
-    <button type="button" onclick="init()">MUTE</button>
-    <div><canvas id="canvas"></canvas></div>
-    <div id="label-container"></div>
+    <div class="app">
+        <div id="welcome"></div>
+        <div id="mute"></div>
+        <!-- <button type="button" onclick="">MUTE</button> -->
+        <div><canvas id="canvas"></canvas></div>
+        <div id="label-container"></div>
+    </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
-    <script src="./teachable-login.js"></script>
-   <script src="./teachable.js"></script>
+    <script src="teachable-login.js"></script>
+    <script src="teachable.js"></script>
 </body>
+
 </html>
