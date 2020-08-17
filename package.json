@@ -20,6 +20,7 @@
   "dependencies": {
     "@feathersjs/express": "^4.5.7",
     "@feathersjs/feathers": "^4.5.7",
-    "@feathersjs/socketio": "^4.5.7"
+    "@feathersjs/socketio": "^4.5.7",
+    "tone": "^14.7.39"
   }
 }

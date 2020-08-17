@@ -1,6 +1,7 @@
 const feathers = require('@feathersjs/feathers');
 const express = require('@feathersjs/express');
 const socketio = require('@feathersjs/socketio');
+// const Tone = require("tone/build/esm/core/Tone");
 
 // -------------Services-------------------//
 

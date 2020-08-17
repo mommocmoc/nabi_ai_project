@@ -3,7 +3,7 @@
 
      // the link to your model provided by Teachable Machine export panel
      var $loginPage = $('.login.page');
-     let model, webcam, ctx, labelContainer, maxPredictions, username, initURL, synth, sampler, casioOn, piano, pianoOn, drum, drumOn, crash;
+     let model, webcam, ctx, labelContainer, maxPredictions, username, initURL, synth, sampler, casioOn, piano, pianoOn, drumOn;
      let predictionVal = [];
      let previousVal = [null, null, null, null, null, null, null, null];
      //audio Part
@@ -64,20 +64,15 @@
              //  oscillator.type = oscTypeSelector.value
              if (oscTypeSelector.value === "Chords") {
                  casioOn = true;
-                 pianoOn = false;
-                 drumOn = false;
              } else if (oscTypeSelector.value === "Piano") {
-                 casioOn = false;
-                 pianoOn = true;
-                 drumOn = false;
-             } else if (oscTypeSelector.value === "Drum") {
-                 casioOn = false;
-                 pianoOn = false;
-                 drumOn = true;
+                casioOn = false;
+                pianoOn = true;
+            } else if (oscTypeSelector.value === "Drum") {
+                casioOn = false;
+                pianoOn = false;
              } else {
                  casioOn = false;
                  pianoOn = false;
-                 drumOn = false;
                  synth.type = oscTypeSelector.value.toLowerCase();
              }
 
@@ -166,25 +161,18 @@
              release: 1,
              baseUrl: "https://tonejs.github.io/audio/salamander/"
          }).toDestination();
-         drum = new Tone.Players({
-            //  urls:{
-            //      0: "kick.mp3",
-            //      1 : "snare.mp3",
-            //      2 : "hihat.mp3",
-            //      3 : "tom1.mp3 ",
-            //      4 : "./crash-hr.wav"
-            //  },
-             urls:{
-                 0: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/kick.mp3",
-                 1: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/snare.mp3",
-                 2: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/hihat.mp3",
-                 3: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/tom1.mp3 ",
-                 4 : "./crash-hr.wav"
+         drum = new Tone.Sampler({
+             urls: {
+                kick : "kick.mp3",
+                snare : "snare.mp3",
+                hihat : "hihat.mp3",
+                tom1 : "tom1.mp3",
+                tom2 : "tom2.mp3",
+                tom3 : "tom3.mp3"
              },
-             fadeOut : "8n",
-            //  baseUrl: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/"
+             baseUrl: "https://tonejs.github.io/audio/drum-samples/acoustic-kit/"
          }).toDestination();
-        //  drum.add(4, "localhost:3030/crash-hr.wav").toDestination();
+         drum.add("crash","./crash-hr.wav");
          //  //audio Part Loading
          //  audioCtx = new AudioContext();
          //  oscillator = audioCtx.createOscillator();
@@ -230,6 +218,8 @@
              //casio Sampler play mode
              if (casioOn === true) {
                  if (parseFloat(predictionVal[i]) >= 0.90) {
+                     //play Audio
+                     //  playAudio(i, predictionVal);
                      let baseFreq = maxFreq[i] / 8;
                      if (parseFloat(predictionVal[i]) - previousVal[i] > 0.9) {
                          sampler.triggerAttackRelease([baseFreq, baseFreq * 1.25, baseFreq * 1.5, baseFreq * 1.8], 1)
@@ -238,28 +228,20 @@
                  } else {
                      previousVal[i] = 0.01
                  }
-             } else if (pianoOn === true) {
-                 //piano mode
-                 if (parseFloat(predictionVal[i]) >= 0.90) {
-                     let baseFreq = maxFreq[i] / 4;
-                     if (parseFloat(predictionVal[i]) - previousVal[i] > 0.9) {
-                         piano.triggerAttackRelease(baseFreq, 1)
-                         previousVal[i] = predictionVal[i];
+                } else if(pianoOn === true){
+                     if (parseFloat(predictionVal[i]) >= 0.90) {
+                         //play Audio
+                         //  playAudio(i, predictionVal);
+                         let baseFreq = maxFreq[i] / 4;
+                         if (parseFloat(predictionVal[i]) - previousVal[i] > 0.9) {
+                             piano.triggerAttackRelease(baseFreq, 1)
+                             previousVal[i] = predictionVal[i];
+                         }
+                     } else {
+                         previousVal[i] = 0.01
                      }
-                 } else {
-                     previousVal[i] = 0.01
-                 }
-             } else if (drumOn === true) {
-                 //drum mode
-                 if (parseFloat(predictionVal[i]) >= 0.90) {
-                     if (parseFloat(predictionVal[i]) - previousVal[i] > 0.9) {
-                         i = i%5;
-                         drum.player(i).start();
-                         previousVal[i] = predictionVal[i];
-                     }
-                 } else {
-                     previousVal[i] = 0.01
-                 }
+
+             } else if(drumOn === true){
 
              } else {
                  // Osc Mode
